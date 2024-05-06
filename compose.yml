@@ -1,0 +1,18 @@
+services:
+  ue5:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: ue5-container
+    image: ue5-image
+    volumes:
+      - ./app:c:/app
+    # fix for docker compose windows container bug
+    networks:
+      - default_net
+
+# fix for docker compose windows container bug
+networks:
+  default_net:
+    external: true
+    name: nat

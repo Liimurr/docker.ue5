@@ -3,13 +3,21 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+      args:
+        - GITHUB_PRIVATE_KEY=${GITHUB_PRIVATE_KEY}
     container_name: ue5-container
     image: ue5-image
-    volumes:
-      - ./app:c:/app
+    deploy:
+      resources:
+        # https://forums.unrealengine.com/t/build-time-execution-very-slow-rider-unreal-engine-5-3/1378272
+        # you need at least 1.5GB of ram per core for the build process
+        limits:
+          memory: ${MEMORY_LIMIT:-8g}
+          cpus: ${CPU_LIMIT-:4}
     # fix for docker compose windows container bug
     networks:
       - default_net
+    
 
 # fix for docker compose windows container bug
 networks:
